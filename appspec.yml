@@ -3,4 +3,18 @@ os: linux
 files:
   - source: /
     destination: /var/www/html
+    overwrite: true
+hooks:
+  BeforeInstall:
+    - location: scripts/httpd_check.sh
+      timeout: 300
+      runas: root
+  AfterInstall:
+    - location: scripts/server_health_check.sh
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    - location: scripts/server_restart.sh
+      timeout: 300
+      runas: root
 
